@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   Design Tokens — CSS-first config (v4 @theme)
+───────────────────────────────────────────── */
+@theme {
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* ── Custom animations ── */
+  --animate-shimmer:    shimmer    3s   linear      infinite;
+  --animate-pulse-glow: pulse-glow 4s   ease-in-out infinite;
+  --animate-float:      float      7s   ease-in-out infinite;
+  --animate-scan-line:  scan-line  3s   linear      infinite;
+
+  /* Shimmer — gradient text sweep */
+  @keyframes shimmer {
+    from { background-position: -200% center; }
+    to   { background-position:  200% center; }
+  }
+
+  /* Pulse-glow — ambient light breathe */
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.25; transform: scale(1);    }
+    50%       { opacity: 0.55; transform: scale(1.08); }
+  }
+
+  /* Float — card hover elevation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px)   rotate(0deg);    }
+    33%       { transform: translateY(-12px) rotate(0.4deg);  }
+    66%       { transform: translateY(8px)   rotate(-0.4deg); }
+  }
+
+  /* Scan-line — terminal effect */
+  @keyframes scan-line {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(500%);  }
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Base layer
+───────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-slate-950);
+    color: var(--color-slate-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-cyan-500);
+    color: var(--color-slate-950);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Custom utilities (@utility — v4 pattern)
+───────────────────────────────────────────── */
+
+/* Glassmorphism card */
+@utility glass-card {
+  background: rgb(255 255 255 / 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgb(255 255 255 / 0.07);
+}
+
+/* Shimmer gradient text — replaces v3 @layer utilities approach */
+@utility shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-slate-400)   0%,
+    var(--color-cyan-300)   30%,
+    var(--color-violet-300) 60%,
+    var(--color-slate-400) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Gradient top-border accent line */
+@utility gradient-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-cyan-500),
+    var(--color-violet-500),
+    transparent
+  );
+}
